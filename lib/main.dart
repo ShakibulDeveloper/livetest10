@@ -25,6 +25,7 @@ class HomeScreenState extends StatefulWidget{
 
 }
 
+//====ITEMS====
 class Items{
   late String name;
   late int status;
@@ -43,6 +44,34 @@ class HomeScreenUI extends State<HomeScreenState>{
     Items("Item5", 0),
   ];
 
+  //====CHECK_ITEM_SELECTION====
+  void selectedItems(){
+    for(int i=0; i < itemList.length; i++){
+      if(itemList[i].status != 0){
+        count++;
+      }
+    }
+  }
+
+  //====ITEM_SELECTED_ALERT_MESSAGE====
+  itemSelectedAlert(){
+    return showDialog(context: context, barrierDismissible: false ,builder: (context){
+      return AlertDialog(
+        title: const Text("Selected Item"),
+        content: Text('You have Selected: $count'),
+        actions: [
+          ElevatedButton(
+              onPressed: (){
+                count = 0;
+                Navigator.pop(context);
+              },
+              child: const Text("Close")
+          )
+        ],
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,7 +80,8 @@ class HomeScreenUI extends State<HomeScreenState>{
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: (){
-
+          selectedItems();
+          itemSelectedAlert();
         },
         child: const Icon(Icons.check),
       ),
@@ -59,7 +89,7 @@ class HomeScreenUI extends State<HomeScreenState>{
           itemCount: itemList.length,
           itemBuilder: (context, index){
             return Card(
-              color: Color(itemList[index].status == 0 ? 0xFFFFFF : 0xFF0000FF),
+              color: Color(itemList[index].status == 0 ? 0xFFFFFF : 0xFFADD8E6),
               child: ListTile(
                 onTap: (){
                   if(itemList[index].status == 0){
